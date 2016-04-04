@@ -25,9 +25,10 @@ public class runme {
 		for(int i=4;i<x.length;i++){
 			l[i] = "another genome "+i;
 		}
+		
 		for(int i=0;i<x.length;i++){
 			x[i] = (double) i;
-			y[i] = Math.random()*10;
+			y[i] = i;
 		}
 		
 		//2d plot examples
@@ -44,9 +45,10 @@ public class runme {
 			x[i] = k;
 			y[i] = Math.tan(k);
 		}
-		*/	
-		//transform tf = new transformContinuous(x,y);
+			*/
+		//transform tf = new transformContinuous(x,y,l);
 		transform tf = new transformDiscreet(x,y,l);
+		tf.activateLabels();
 		basicpanel bp = new basicpanel(tf, 500, 300, "This is labelx", "This is label y", plotmode.plot2dLabels);
 		bp.createFrame();
 		

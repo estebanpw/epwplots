@@ -2,8 +2,8 @@ package plot;
 
 public class transformContinuous extends transform{
 	
-	public transformContinuous(double xToTransform[], double yToTransform[]){
-		super(xToTransform, yToTransform);
+	public transformContinuous(double xToTransform[], double yToTransform[], String showLabels[]){
+		super(xToTransform, yToTransform, showLabels);
 	}
 
 	public void recompute(int cx, int cy, int[]x, int[] y, String[] xaxis, String[] yaxis){

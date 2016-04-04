@@ -2,13 +2,20 @@ package plot;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 import useful.plotmode;
 
@@ -33,10 +40,12 @@ public class basicpanel extends JPanel{
 	private plotmode pmode;
 	
 	//border for axis
-	final int border = 20;
+	final int border = 40;
 	
-	private JPanel center, south, west, east, north;
+	private JPanel center, south, west, east, north, westHoldLabels, westYLabel;
 	private JLabel labelx, labely;
+	private JList label_list;
+	private DefaultListModel listModel;
 	
 	
 	
@@ -113,12 +122,10 @@ public class basicpanel extends JPanel{
                     	transformDiscreet tfd = (transformDiscreet) tf;
                     	for(int i=0;i<tfd.getlenx();i++){
                         	g.setColor(Color.BLUE);
-                        	g.fillRect(x[i]+border, cy-y[i], 10, cy);
+                        	g.fillRect(x[i]+b2, cy-y[i]-b2, 10, cy-b2);
                         	g.setColor(Color.BLACK);
-                        	//g.drawChars(xaxis[i].toCharArray(), 0, 5, i*cx/x.length, cy);
-                        	//g.drawChars(yaxis[tfd.getleny()-1-i].toCharArray(), 0, 5, 0, i*cy/y.length);
+                        	g.drawString(yaxis[tfd.getleny()-i-1], 0, i*cy/y.length);
                         	g.drawString(""+i, x[i], cy);
-                        	//g.drawOval(x[i], y[i], 20, 20);
                         }
                     	break;
                     	
@@ -138,13 +145,16 @@ public class basicpanel extends JPanel{
         west = new JPanel();
         east = new JPanel();
         north = new JPanel();
-        
+        westHoldLabels = new JPanel();
+        westYLabel = new JPanel();
         
         center.setBackground(Color.WHITE);
         south.setBackground(Color.LIGHT_GRAY);
         north.setBackground(Color.LIGHT_GRAY);
         east.setBackground(Color.LIGHT_GRAY);
         west.setBackground(Color.LIGHT_GRAY);
+        westHoldLabels.setBackground(Color.LIGHT_GRAY);
+        westYLabel.setBackground(Color.LIGHT_GRAY);
         
         panel.add(center, BorderLayout.CENTER);
         panel.add(south, BorderLayout.SOUTH);
@@ -152,8 +162,31 @@ public class basicpanel extends JPanel{
         panel.add(west, BorderLayout.WEST);
         panel.add(east, BorderLayout.EAST);
         
+        west.setLayout(new BorderLayout());
+        west.add(westHoldLabels, BorderLayout.WEST);
+        west.add(westYLabel, BorderLayout.EAST);
         
-        west.add(labely);
+        
+        
+        westYLabel.add(labely);
+        if(tf.doShowLabels()){
+        	listModel = new DefaultListModel();
+        	for(int i=0;i<tf.getLabelsSize();i++){
+        		listModel.addElement(tf.getLabels()[i]);
+        	}
+        	
+            
+            label_list = new JList(listModel);
+            label_list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            label_list.setSelectedIndex(0);
+            //label_list.addListSelectionListener(this);
+            label_list.setVisibleRowCount(5);
+            JScrollPane listScrollPane = new JScrollPane(label_list);
+            westHoldLabels.setLayout(new BorderLayout());
+            westHoldLabels.add(listScrollPane);
+        }
+        
+        
         south.add(labelx);
         
         

@@ -4,13 +4,35 @@ public abstract class transform {
 	protected double maxx, maxy, minx, miny;
 	protected double[] xdouble, ydouble;
 	protected double dx, dy;
+	protected String[] showLabels;
+	protected boolean showLeftLabels;
 	
-	
-	public transform(double xToTransform[], double yToTransform[]){
-		
+	public transform(double xToTransform[], double yToTransform[], String showLabels[]){
+		showLeftLabels = false;
 		xdouble = xToTransform;
 		ydouble = yToTransform;
+		this.showLabels = showLabels;
 		computeStatic();
+	}
+	
+	public boolean doShowLabels(){
+		return showLeftLabels;
+	}
+	
+	public void activateLabels(){
+		showLeftLabels = true;
+	}
+	
+	public void deactivateLabels(){
+		showLeftLabels = false;
+	}
+	
+	public String[] getLabels(){
+		return showLabels;
+	}
+	
+	public int getLabelsSize(){
+		return showLabels.length;
 	}
 	
 	public int getlenx(){
